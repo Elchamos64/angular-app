@@ -2,17 +2,17 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
-import { ServerComponent } from './server/server.component';
-import { ServersComponent } from './servers/servers.component';
+import { ContactListComponent } from './contacts/contact-list/contact-list.component';
+import { ContactDetailComponent } from './contacts/contact-detail/contact-detail.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ServersComponent
+    ContactListComponent,
+    ContactDetailComponent
   ],
   imports: [
     BrowserModule,
-    ServerComponent
   ],
   providers: [],
   bootstrap: [AppComponent]
