@@ -9,10 +9,11 @@ import { Component } from '@angular/core';
 export class ContactDetailComponent {
   serverID: number = 10;
   serverStatus: string = 'offline';
+  serverName : string = 'TestServer';
 
   serverCreateStatus: string = 'No server was created!';
 
   onCreateServer() {
-    this.serverCreateStatus = 'Server was created!';
+    this.serverCreateStatus = 'Server was created!' + this.serverName;
   }
 }
