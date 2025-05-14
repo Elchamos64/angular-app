@@ -1,10 +1,16 @@
-<p>Server ID is {{ serverID }} Server Status is {{ serverStatus }}</p>
-
-<button class="btn btn-primary"
-(click)="onCreateServer()">Create Server</button>
-
-<input type="text" [(ngModel)]="serverName">
-
-<p>Server Name is {{ serverName }}</p>
-
-<p>{{ serverCreateStatus }}</p>
+<div class="panel panel-default" style="width: 250px;">
+  <div class="panel-body">
+    <div class="text-right">
+      <button class="btn btn-primary btn-sm">Edit</button>
+      <button class="btn btn-danger btn-sm">Delete</button>
+    </div>
+  </div>
+  <ul class="list-group">
+    <li class="list-group-item">
+      <strong>Email:</strong> 
+    </li>
+    <li class="list-group-item">
+      <strong>Phone:</strong>
+    </li>
+  </ul>
+</div>

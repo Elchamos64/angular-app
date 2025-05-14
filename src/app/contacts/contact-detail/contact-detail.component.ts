@@ -7,13 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './contact-detail.component.css'
 })
 export class ContactDetailComponent {
-  serverID: number = 10;
-  serverStatus: string = 'offline';
-  serverName : string = 'TestServer';
 
-  serverCreateStatus: string = 'No server was created!';
-
-  onCreateServer() {
-    this.serverCreateStatus = 'Server was created!' + this.serverName;
-  }
 }
