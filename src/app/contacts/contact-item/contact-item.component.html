@@ -1,0 +1,14 @@
+<a class="list-group-item clearfix"
+(click)="onSelected()">
+  <div class="pull-left">
+    <strong>Bro. {{ contact.name.split(" ")[1] }}</strong>
+  </div>
+  <span class="pull-right">
+    <img
+      src="{{ contact.imageUrl }}"
+      alt="{{ contact.name }}"
+      class="img-responsive img-thumbnail"
+      style="width: 80px; height: 100px"
+    />
+  </span>
+</a>

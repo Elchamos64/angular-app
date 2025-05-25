@@ -6,17 +6,9 @@
     </div>
 
     <div class="list-group">
-      <a *ngFor="let contact of contacts" href="#" class="list-group-item clearfix">
-        <div class="pull-left">
-          <strong>Bro. {{ contact.name.split(' ')[1] }}</strong>
-        </div>
-        <span class="pull-right">
-          <img src="{{ contact.imageUrl }}"
-               alt="{{ contact.name }}"
-               class="img-responsive img-thumbnail"
-               style="width: 50px; height: 50px;">
-        </span>
-      </a>
+      <app-contact-item *ngFor="let contactEl of contacts"
+      [contact]="contactEl"
+      (contactSelected)="onContactSelected(contactEl)"></app-contact-item>
     </div>
   </div>
   </div>
