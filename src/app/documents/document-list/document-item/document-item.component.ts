@@ -1,16 +1,19 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Document } from '../../document.model';
+import { DocumentService } from '../../document.service';
 @Component({
   selector: 'app-document-item',
   standalone: false,
   templateUrl: './document-item.component.html',
   styleUrl: './document-item.component.css'
 })
-export class DocumentItemComponent {
+export class DocumentItemComponent{
   @Input() document: Document;
-  @Output() documentSelected = new EventEmitter<void>();
+
+  constructor(private documentService: DocumentService) {
+  }
 
   onSelected() {
-    this.documentSelected.emit();
+    this.documentService.documentSelected.emit(this.document);
   }
 }
