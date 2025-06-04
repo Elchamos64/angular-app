@@ -5,6 +5,7 @@ import { AppComponent } from './app.component';
 import { ContactComponent } from './contacts/contact.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
 import { ContactDetailComponent } from './contacts/contact-detail/contact-detail.component';
+import { ContactService} from './contacts/contact.service';
 import { FormsModule } from '@angular/forms';
 import { HeaderComponent } from './header/header.component';
 import { ContactItemComponent } from './contacts/contact-item/contact-item.component';
@@ -34,13 +35,13 @@ import { DropdownDirective } from './shared/dropdown-directive';
     MessageListComponent,
     MessageItemComponent,
     MessageEditComponent,
-    DropdownDirective
+    DropdownDirective,
   ],
   imports: [
     BrowserModule,
     FormsModule
   ],
-  providers: [],
+  providers: [ContactService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

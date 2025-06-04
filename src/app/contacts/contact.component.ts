@@ -6,7 +6,6 @@ import {ContactService} from './contact.service';
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   standalone: false,
-  providers: [ContactService],
 })
 export class ContactComponent implements OnInit{
   selectedContact: Contact;
