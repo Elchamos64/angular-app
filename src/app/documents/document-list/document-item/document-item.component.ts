@@ -9,11 +9,9 @@ import { DocumentService } from '../../document.service';
 })
 export class DocumentItemComponent{
   @Input() document: Document;
+  @Input() index: number;
 
   constructor(private documentService: DocumentService) {
   }
 
-  onSelected() {
-    this.documentService.documentSelected.emit(this.document);
-  }
 }
