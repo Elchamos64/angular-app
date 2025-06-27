@@ -10,6 +10,7 @@ import {Injectable, EventEmitter } from '@angular/core';
 
 export class DocumentService {
   documentSelected: EventEmitter<Document> = new EventEmitter<Document>();
+  documentChangedEvent: EventEmitter<Document[]> = new EventEmitter<Document[]>();
   documents: Document[] = [];
 
   constructor() {
@@ -21,6 +22,18 @@ export class DocumentService {
   }
   getDocumentById(index: number): Document {
     return this.documents.slice()[index];
+  }
+
+  deleteDocument(document: Document) {
+    if (!document) {
+      return;
+    }
+    const pos = this.documents.indexOf(document);
+    if (pos < 0) {
+      return;
+    }
+    this.documents.splice(pos, 1);
+    this.documentChangedEvent.emit(this.documents.slice());
   }
 
 }

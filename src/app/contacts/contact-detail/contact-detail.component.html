@@ -1,14 +1,14 @@
-<div class="panel panel-default" style="width: 250px;">
+<div *ngIf="contact" class="panel panel-default" style="width: 250px;">
   <div class="panel-body">
     <div class="text-right">
-      <img src="{{ contact.imageUrl }}" alt=" {{ contact.name }}" class="img-responsive img-thumbnail" style="width: 80px; height: 100px;">
-      <button class="btn btn-primary btn-sm">Edit</button>
-      <button class="btn btn-danger btn-sm">Delete</button>
+      <img [src]="contact.imageUrl" alt="{{ contact.name }}" class="img-responsive img-thumbnail" style="width: 80px; height: 100px;">
+      <button [routerLink]="['edit']" class="btn btn-primary btn-sm">Edit</button>
+      <button (click)="onDelete()" class="btn btn-danger btn-sm">Delete</button>
     </div>
   </div>
   <ul class="list-group">
     <li class="list-group-item">
-      <strong>Email: {{ contact.email }}</strong> 
+      <strong>Email: {{ contact.email }}</strong>
     </li>
     <li class="list-group-item">
       <strong>Phone: {{ contact.phone }}</strong>

@@ -10,6 +10,7 @@ import {MOCKCONTACTS} from './MOCKCONTACTS';
 
 export class ContactService {
   contactSelected: EventEmitter<Contact> = new EventEmitter<Contact>();
+  contactChangedEvent: EventEmitter<Contact[]> = new EventEmitter<Contact[]>();
   contacts: Contact[]=[];
 
   constructor() {
@@ -20,8 +21,22 @@ export class ContactService {
     return this.contacts.slice();
   }
 
-  getContactById (id:string): Contact {
-    return this.contacts.find(contact => contact.id == id);
+  getContactById (id: string): Contact {
+    const contact = this.contacts.find(contact => contact.id === id);
+    console.log('Contact found by ID:', contact);
+    return contact;
+  }
+
+  deleteContact (contact: Contact) {
+    if (!contact) {
+      return;
+    }
+    const pos = this.contacts.indexOf(contact);
+    if (pos < 0) {
+      return;
+    }
+    this.contacts.splice(pos, 1);
+    this.contactChangedEvent.emit(this.contacts.slice());
   }
 
 

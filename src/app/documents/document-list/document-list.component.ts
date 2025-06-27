@@ -18,7 +18,11 @@ export class DocumentListComponent implements OnInit{
                private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.documents = this.documentService.getDocuments()
+    this.documents = this.documentService.getDocuments();
+    this.documentService.documentChangedEvent.subscribe((documents: Document[]) => {
+      this.documents = documents
+    }
+    );
   }
 
 
