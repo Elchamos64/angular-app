@@ -1,1 +1,111 @@
-<p>contact-edit works!</p>
+<div class="panel panel-default">
+  <div class="panel-body">
+    <form id="contact-edit"
+          #f="ngForm"
+          (ngSubmit)="onSubmit(f)">
+
+      <!-- Name -->
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="name">Name:</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control"
+            required
+            [(ngModel)]="contact.name"
+            #name="ngModel"
+            size="120"
+            maxlength="120">
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="email">Email:</label>
+          <input
+            type="text"
+            id="email"
+            name="email"
+            class="form-control"
+            required
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+            [(ngModel)]="contact.email"
+            #email="ngModel"
+            size="120"
+            maxlength="255">
+          <div *ngIf="email.invalid && email.touched" class="alert alert-danger">
+            Enter a valid Email address
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="phone">Phone:</label>
+          <input
+            type="text"
+            id="phone"
+            name="phone"
+            class="form-control"
+            pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
+            [(ngModel)]="contact.phone"
+            #phone="ngModel"
+            size="150"
+            maxlength="255">
+          <div *ngIf="phone.invalid && phone.touched" class="alert alert-danger">
+            Enter a valid phone number
+          </div>
+        </div>
+      </div>
+
+      <!-- Image URL -->
+      <div class="row">
+        <div class="col-sm-12 form-group">
+          <label for="imageUrl">Image URL:</label>
+          <input
+            type="text"
+            id="imageUrl"
+            name="imageUrl"
+            class="form-control"
+            [(ngModel)]="contact.imageUrl"
+            size="150"
+            maxlength="255">
+        </div>
+      </div>
+
+      <!-- Group Contacts -->
+      <div class="row">
+        <div class="form-group">
+          <label for="groupList">Group Contacts:</label>
+          <div class="row" id="groupList" style="min-height: 3rem;">
+            <div *ngFor="let contact of groupContacts; let i = index">
+              <div>
+                <app-contact-item class="col-sm-11" [contact]="contact"></app-contact-item>
+                <button class="btn btn-danger col-sm-2 deleteButton" (click)="onRemoveItem(i)">X</button>
+              </div>
+            </div>
+            <span class="dragMsg" *ngIf="groupContacts?.length < 1">Drag contacts in group here</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Validation Error Display -->
+      <div *ngIf="(name.invalid && name.untouched) || (email.invalid && email.untouched)" class="alert alert-danger">
+        The Name and Email fields are required.
+      </div>
+
+      <!-- Buttons -->
+      <div class="row">
+        <div class="col-xs-12 btn-toolbar">
+          <button class="btn btn-success" type="submit" [disabled]="f.invalid">Save</button>
+          <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
