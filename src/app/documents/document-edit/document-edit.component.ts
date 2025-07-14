@@ -30,8 +30,16 @@ export class DocumentEditComponent implements OnInit {
 
       if (!this.id) {
         this.editMode = false;
+        this.document = new Document(
+          0,
+          '',
+          '',
+          '',
+          []
+        );
         return;
       }
+
 
       this.originalDocument = this.documentService.getDocumentById(this.id);
 
@@ -40,23 +48,23 @@ export class DocumentEditComponent implements OnInit {
       }
 
       this.editMode = true;
-
       this.document = JSON.parse(JSON.stringify(this.originalDocument));
     });
   }
 
 
   onSubmit(form: NgForm) {
-    const value = form.value; // get values from form’s fields
+    const value = form.value;
 
     const newDocument = new Document(
-      value.title,
+      this.editMode ? this.originalDocument.id : null,
+      value.name,
       value.description,
-      value.url, null // children or nested docs if applicable, or adjust as needed
+      value.url,
+      []  // or this.groupContacts or whatever children you have
     );
 
     if (this.editMode) {
-      newDocument.id = this.originalDocument.id;
       this.documentService.updateDocument(this.originalDocument, newDocument);
     } else {
       this.documentService.addDocument(newDocument);
@@ -64,6 +72,7 @@ export class DocumentEditComponent implements OnInit {
 
     this.router.navigate(['/documents']);
   }
+
 
 
 

@@ -10,13 +10,13 @@
           <input
             type="text"
             id="name"
+            name="name"
             class="form-control"
             required
-            name="name"
             #name="ngModel"
-            [ngModel]="document?.name"
+            [(ngModel)]="document.name"
             size="120"
-            maxlength="120">
+            maxlength="120" />
         </div>
       </div>
 
@@ -26,11 +26,11 @@
           <input
             type="text"
             id="description"
-            class="form-control"
             name="description"
-            [ngModel]="document?.description"
+            class="form-control"
+            [(ngModel)]="document.description"
             size="120"
-            maxlength="255">
+            maxlength="255" />
         </div>
       </div>
 
@@ -40,13 +40,13 @@
           <input
             type="text"
             id="url"
+            name="url"
             class="form-control"
             required
-            name="url"
+            [(ngModel)]="document.url"
             #url="ngModel"
-            [ngModel]="document?.url"
             size="150"
-            maxlength="255">
+            maxlength="255" />
         </div>
       </div>
 
