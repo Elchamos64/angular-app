@@ -29,7 +29,7 @@ export class MessageEditComponent {
       msgText
     );
 
-    this.messageService.addMessages(newMessage);
+    this.messageService.addMessage(newMessage);
     console.log(newMessage);
   }
 

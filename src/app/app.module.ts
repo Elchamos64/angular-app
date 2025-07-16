@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
+import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { ContactComponent } from './contacts/contact.component';
 import { ContactListComponent } from './contacts/contact-list/contact-list.component';
@@ -21,6 +22,7 @@ import { DropdownDirective } from './shared/dropdown-directive';
 import {AppRoutingModule} from './app-routing.module';
 import { DocumentEditComponent } from './documents/document-edit/document-edit.component';
 import { ContactEditComponent } from './contacts/contact-edit/contact-edit.component';
+import { ContactsFilterPipe } from './contacts/contacts-filter.pipe';
 
 @NgModule({
   declarations: [
@@ -41,11 +43,13 @@ import { ContactEditComponent } from './contacts/contact-edit/contact-edit.compo
     DropdownDirective,
     DocumentEditComponent,
     ContactEditComponent,
+    ContactsFilterPipe,
   ],
     imports: [
         BrowserModule,
         FormsModule,
-      AppRoutingModule
+      AppRoutingModule,
+      HttpClientModule,
     ],
   providers: [ContactService],
   bootstrap: [AppComponent]
