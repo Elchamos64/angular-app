@@ -24,16 +24,11 @@ export class DocumentService {
   }
 
   getDocuments(): void {
-    this.http.get<{ [key: string]: Document }>('https://cms-app-1-d3b7f-default-rtdb.firebaseio.com/documents.json')
+    this.http.get<{ message: string, documents: Document[] }>('http://localhost:3000/documents')
       .subscribe(
-        (documentsObj) => {
-          // Convert the object returned from Firebase into an array of documents
-          const documents: Document[] = [];
-          for (const key in documentsObj) {
-            if (documentsObj.hasOwnProperty(key)) {
-              documents.push(documentsObj[key]);
-            }
-          }
+        (response) => {
+          // Access the documents array from the response
+          const documents = response.documents;
 
           // Assign to the documents property
           this.documents = documents;
@@ -57,27 +52,19 @@ export class DocumentService {
       );
   }
 
+
   storeDocuments(): void {
-    // Convert documents array to JSON string
-    const documentsJson = JSON.stringify(this.documents);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
 
-    // Set HTTP headers
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    // PUT request to Firebase to update the documents list
     this.http.put(
-      'https://cms-app-1-d3b7f-default-rtdb.firebaseio.com/documents.json',
-      documentsJson,
+      'http://localhost:3000/documents', // <-- points to your Node API
+      this.documents,
       { headers: headers }
-    )
-      .subscribe(() => {
-        // Notify subscribers that the document list has changed
-        this.documentListChangedEvent.next(this.documents.slice());
-      }, (error) => {
-        console.error('Error storing documents:', error);
-      });
+    ).subscribe(() => {
+      this.documentListChangedEvent.next(this.documents.slice());
+    }, (error) => {
+      console.error('Error storing documents:', error);
+    });
   }
 
   getDocumentById(index: number): Document {
@@ -88,13 +75,27 @@ export class DocumentService {
     if (!document) {
       return;
     }
-    const pos = this.documents.indexOf(document);
+
+    const pos = this.documents.findIndex(d => d.id === document.id);
+
     if (pos < 0) {
       return;
     }
-    this.documents.splice(pos, 1);
-    this.storeDocuments()
+
+    // Make DELETE request to backend
+    this.http.delete('http://localhost:3000/documents/' + document.id)
+      .subscribe(
+        () => {
+          // On success, remove from local array and emit update
+          this.documents.splice(pos, 1);
+          this.sortAndSend();
+        },
+        (error) => {
+          console.error('Delete failed:', error);
+        }
+      );
   }
+
 
   getMaxId(): number {
     let maxId = 0;
@@ -109,27 +110,67 @@ export class DocumentService {
     return maxId;
   }
 
-  addDocument(newDocument: Document) {
-    if (!newDocument) {
+
+  addDocument(document: Document) {
+    if (!document) {
       return;
     }
-    this.maxDocumentId++;
-    newDocument.id = this.maxDocumentId;
-    this.documents.push(newDocument);
-    this.storeDocuments();
+
+    // make sure id of the new Document is empty
+    document.id = 0;
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    // add to database
+    this.http.post<{ message: string, document: Document }>('http://localhost:3000/documents',
+      document,
+      { headers: headers })
+      .subscribe(
+        (responseData) => {
+          // add new document to documents
+          this.documents.push(responseData.document);
+          this.sortAndSend();
+        }
+      );
   }
 
-  updateDocument (document: Document, newDocument: Document) {
+  sortAndSend() {
+    this.documents.sort((a, b) => {
+      if (a.name < b.name) return -1;
+      if (a.name > b.name) return 1;
+      return 0;
+    });
+    this.documentListChangedEvent.next(this.documents.slice());
+  }
+
+  updateDocument(document: Document, newDocument: Document) {
     if (!document || !newDocument) {
       return;
     }
+
     const pos = this.documents.indexOf(document);
     if (pos < 0) {
       return;
     }
+
     newDocument.id = document.id;
-    this.documents[pos] = newDocument;
-    this.storeDocuments()
+
+    const headers = new HttpHeaders({'Content-Type': 'application/json'});
+
+    this.http.put('http://localhost:3000/documents/' + document.id,
+      newDocument,
+      { headers: headers })
+      .subscribe(
+        (response) => {
+          // Update local array only after successful update on server
+          this.documents[pos] = newDocument;
+          this.sortAndSend();
+        },
+        (error) => {
+          console.error('Update failed:', error);
+        }
+      );
   }
+
 
 }
